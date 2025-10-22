@@ -9,6 +9,12 @@
     --color-white: #FFFFFF;
     --color-light-grey: #EAEAEA;
     --color-mid-grey: #AAAAAA;
+    
+    /* Taille et décalage des cercles pour le calcul des lignes */
+    --circle-size: 30px;
+    --circle-border: 5px;
+    --circle-half: calc(var(--circle-size) / 2);
+    --line-thickness: 15px;
 }
 
 body {
@@ -256,7 +262,7 @@ body {
 
 .track-line {
     position: absolute;
-    height: 15px;
+    height: var(--line-thickness);
     background-color: var(--color-red); 
     border-radius: 8px;
     transform-origin: center center;
@@ -264,27 +270,64 @@ body {
     z-index: 15;
     transition: background-color 0.4s ease-in-out;
 }
-        
-.line-tl-1 { top: 90px; left: 50px; width: 140px; transform: rotate(-8deg); } 
-.line-br-1 { bottom: 90px; right: 50px; width: 140px; transform: rotate(8deg); } 
-.line-tr-br { top: 50px; right: 50px; width: 300px; transform: translate(50%, 0) rotate(90deg); } 
-.line-bl-tl { bottom: 50px; left: 50px; width: 300px; transform: translate(-50%, 0) rotate(90deg); }
+
+/* --- Positionnement des Lignes de Transport Corrigé --- */
+
+/* Ligne 1: T-L1 (50, 50) à T-L2 (150, 30) */
+/* Positionné au milieu de la connexion, longueur ajustée */
+.line-tl-1 { 
+    top: 90px; 
+    left: 45px; /* Démarre avant T-L1 */
+    width: 170px; /* Longueur calculée entre les points */
+    transform: rotate(-8deg); 
+    transform-origin: left center;
+} 
+
+/* Ligne 2: B-R1 (50, 50) à B-R2 (150, 30) - symétrique */
+.line-br-1 { 
+    bottom: 90px; 
+    right: 45px; 
+    width: 170px; 
+    transform: rotate(8deg); 
+    transform-origin: right center;
+} 
+
+/* Ligne 3: T-R2 (50, 50) à B-R1 (50, 50) - Ligne verticale droite */
+.line-tr-br { 
+    top: calc(50px + var(--circle-half)); 
+    right: calc(50px + var(--circle-half) - calc(var(--line-thickness) / 2)); 
+    width: 380px; 
+    transform: rotate(90deg) translate(-50%, 50%); /* Décalage pour aligner sur le centre */
+    transform-origin: left center;
+} 
+
+/* Ligne 4: B-L1 (50, 50) à T-L1 (50, 50) - Ligne verticale gauche */
+.line-bl-tl { 
+    bottom: calc(50px + var(--circle-half));
+    left: calc(50px + var(--circle-half) - calc(var(--line-thickness) / 2));
+    width: 380px; 
+    transform: rotate(90deg) translate(-50%, -50%); /* Décalage pour aligner sur le centre */
+    transform-origin: left center;
+}
+
+/* Lignes centrales (simples) */
 .line-mid-v { top: 40%; left: 50%; width: 200px; transform: translate(-50%, -50%) rotate(90deg); } 
 .line-mid-h { top: 50%; left: 50%; width: 200px; transform: translate(-50%, -50%) rotate(0deg); } 
 
 
 .track-circle {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: var(--circle-size);
+    height: var(--circle-size);
     background-color: var(--color-dark-bg);
-    border: 5px solid var(--color-red);
+    border: var(--circle-border) solid var(--color-red);
     border-radius: 50%;
     z-index: 20;
     box-shadow: 0 0 0 5px var(--color-white);
     transition: border-color 0.4s ease-in-out;
 }
 
+/* Positionnement des cercles */
 .top-left-1 { top: 50px; left: 50px; }
 .top-left-2 { top: 150px; left: 30px; }
 .top-right-1 { top: 30px; right: 150px; }
