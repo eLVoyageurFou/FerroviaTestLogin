@@ -49,11 +49,11 @@
                 <form onsubmit="event.preventDefault(); simulateLogin();">
                     <div class="input-group">
                         <label for="login-id">Votre Identifiant*</label>
-                        <input type="text" id="login-id" placeholder="admin.ferrovia" required>
+                        <input type="text" id="login-id" placeholder="Votre Identifiant" required>
                     </div>
                     <div class="input-group">
                         <label for="login-pw">Votre Mot de Passe*</label>
-                        <input type="password" id="login-pw" placeholder="admin(test)" required>
+                        <input type="password" id="login-pw" placeholder="Votre Mot de Passe" required>
                     </div>
                     <p class="info-text">*Données Obligatoires</p>
                     <button type="submit" class="action-btn red-btn">
@@ -66,11 +66,11 @@
                 <form onsubmit="event.preventDefault(); simulateRegister();">
                     <div class="input-group">
                         <label for="register-id">Créez votre Identifiant*</label>
-                        <input type="text" id="register-id" placeholder="MonPseudo" required>
+                        <input type="text" id="register-id" placeholder="Nouvel Identifiant" required>
                     </div>
                     <div class="input-group">
                         <label for="register-pw">Créez votre mot de passe*</label>
-                        <input type="password" id="register-pw" placeholder="**********" required>
+                        <input type="password" id="register-pw" placeholder="Nouveau Mot de Passe" required>
                     </div>
                     <p class="info-text">*Données Obligatoires</p>
                     <button type="submit" class="action-btn blue-btn">
@@ -154,6 +154,7 @@
             const successMsg = document.getElementById('successMessage');
 
             if (!id || !pw) {
+                successMsg.textContent = 'Veuillez remplir tous les champs !';
                 showState('error');
                 return;
             }
@@ -162,29 +163,27 @@
                 isLogged = true;
                 successMsg.textContent = 'Accès au Panel Admin accordé !';
                 showState('success');
-            } else {
-                const success = Math.random() > 0.3; 
-                
-                if (success) {
-                    isLogged = true;
-                    successMsg.textContent = 'Vous avez été connecté avec succès !';
-                    showState('success');
-                } else {
-                    showState('error');
-                }
+                return;
             }
+        
+            successMsg.textContent = 'Identifiant ou Mot de passe incorrect.';
+            showState('error');
         }
         
         function simulateRegister() {
             const id = document.getElementById('register-id').value.trim();
             const pw = document.getElementById('register-pw').value.trim();
+            const successMsg = document.getElementById('successMessage');
             
             if (!id || !pw) {
+                successMsg.textContent = "L'inscription a échoué. Veuillez remplir tous les champs.";
                 showState('error');
                 return;
             }
             
-            showState('initial');
+            isLogged = true;
+            successMsg.textContent = "Inscription réussie ! Vous êtes maintenant connecté.";
+            showState('success');
         }
         
         function logout() {
