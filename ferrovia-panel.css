@@ -265,12 +265,12 @@ body {
     transition: background-color 0.4s ease-in-out;
 }
         
-.line-tl-1 { top: 75px; left: 80px; width: 80px; transform: rotate(-10deg); }
-.line-br-1 { bottom: 75px; right: 80px; width: 80px; transform: rotate(10deg); }
-.line-tr-br { top: 150px; right: 80px; width: 150px; transform: rotate(80deg); }
-.line-bl-tl { bottom: 150px; left: 80px; width: 150px; transform: rotate(-80deg); }
-.line-mid-v { top: 40%; left: 50%; width: 200px; transform: translate(-50%, -50%) rotate(90deg); }
-.line-mid-h { top: 50%; left: 50%; width: 200px; transform: translate(-50%, -50%) rotate(0deg); }
+.line-tl-1 { top: 90px; left: 50px; width: 140px; transform: rotate(-8deg); } 
+.line-br-1 { bottom: 90px; right: 50px; width: 140px; transform: rotate(8deg); } 
+.line-tr-br { top: 50px; right: 50px; width: 300px; transform: translate(50%, 0) rotate(90deg); } 
+.line-bl-tl { bottom: 50px; left: 50px; width: 300px; transform: translate(-50%, 0) rotate(90deg); }
+.line-mid-v { top: 40%; left: 50%; width: 200px; transform: translate(-50%, -50%) rotate(90deg); } 
+.line-mid-h { top: 50%; left: 50%; width: 200px; transform: translate(-50%, -50%) rotate(0deg); } 
 
 
 .track-circle {
