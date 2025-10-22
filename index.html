@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrovia - Connexion & Inscription</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="ferrovia-panel.css"> 
+</head>
+<body>
+
+    <div class="ferrovia-panel initial" id="ferroviaPanel">
+        <div class="panel-content">
+            <div class="panel-header">
+                <h2 class="title">Connexion</h2>
+            </div>
+
+            <div class="state-view already-logged-view">
+                <p class="message-icon already-logged-icon">✅</p>
+                <p class="message-status">Vous êtes déjà connecté !</p>
+                <button class="action-btn red-btn" onclick="logout()">
+                    Déconnexion
+                </button>
+            </div>
+
+            <div class="state-view initial-view">
+                <p class="welcome">Bienvenue sur le site de **Ferrovia**</p>
+
+                <button class="action-btn red-btn" onclick="showState('login')">
+                    Connexion
+                </button>
+                <button class="action-btn blue-btn" onclick="showState('register')">
+                    Inscription
+                </button>
+
+                <p class="help-text">
+                    Vous avez besoin d'aide ?<br>
+                    Rejoins notre serveur **Discord** !
+                </p>
+                
+                <button class="action-btn admin-btn" onclick="showState('login')">
+                    Panel Admin (Accès Pro)
+                </button>
+            </div>
+
+            <div class="state-view login-view">
+                <form onsubmit="event.preventDefault(); simulateLogin();">
+                    <div class="input-group">
+                        <label for="login-id">Votre Identifiant*</label>
+                        <input type="text" id="login-id" placeholder="admin.ferrovia" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="login-pw">Votre Mot de Passe*</label>
+                        <input type="password" id="login-pw" placeholder="admin(test)" required>
+                    </div>
+                    <p class="info-text">*Données Obligatoires</p>
+                    <button type="submit" class="action-btn red-btn">
+                        Connexion
+                    </button>
+                </form>
+            </div>
+
+            <div class="state-view register-view">
+                <form onsubmit="event.preventDefault(); simulateRegister();">
+                    <div class="input-group">
+                        <label for="register-id">Créez votre Identifiant*</label>
+                        <input type="text" id="register-id" placeholder="MonPseudo" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="register-pw">Créez votre mot de passe*</label>
+                        <input type="password" id="register-pw" placeholder="**********" required>
+                    </div>
+                    <p class="info-text">*Données Obligatoires</p>
+                    <button type="submit" class="action-btn blue-btn">
+                        Inscription
+                    </button>
+                </form>
+            </div>
+
+            <div class="state-view success-view">
+                <p class="message-icon success-icon">✔</p>
+                <p class="message-status" id="successMessage">Vous avez été connecté avec succès !</p>
+                <button class="action-btn green-btn" onclick="logout()">
+                    Continuer (Déconnexion Test)
+                </button>
+            </div>
+
+            <div class="state-view error-view">
+                <p class="message-icon error-icon">❌</p>
+                <p class="message-status">Erreur de connexion. Veuillez réessayer</p>
+                <button class="action-btn red-btn" onclick="showState('login')">
+                    Retour à la Connexion
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="track-element-wrapper initial" id="trackWrapper">
+        <div class="track-line line-tl-1"></div>
+        <div class="track-line line-br-1"></div>
+        <div class="track-line line-tr-br"></div>
+        <div class="track-line line-bl-tl"></div>
+        <div class="track-line line-mid-v"></div>
+        <div class="track-line line-mid-h"></div>
+        
+        <div class="track-circle top-left-1"></div>
+        <div class="track-circle top-left-2"></div>
+        <div class="track-circle top-right-1"></div>
+        <div class="track-circle top-right-2"></div>
+        <div class="track-circle bottom-left-1"></div>
+        <div class="track-circle bottom-left-2"></div>
+        <div class="track-circle bottom-right-1"></div>
+        <div class="track-circle bottom-right-2"></div>
+    </div>
+
+    <script>
+        let isLogged = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isLogged) {
+                showState('already-logged');
+            } else {
+                showState('initial');
+            }
+        });
+
+        function showState(state) {
+            const panel = document.getElementById('ferroviaPanel');
+            const trackWrapper = document.getElementById('trackWrapper');
+            const titleElement = panel.querySelector('.panel-header .title');
+            
+            if (isLogged && (state === 'login' || state === 'register' || state === 'initial')) {
+                state = 'already-logged';
+            }
+            
+            panel.className = 'ferrovia-panel ' + state;
+            trackWrapper.className = 'track-element-wrapper ' + state;
+
+            if (state === 'register') {
+                titleElement.textContent = 'Inscription';
+            } else if (state === 'already-logged') {
+                titleElement.textContent = 'Bienvenue';
+            } else {
+                titleElement.textContent = 'Connexion';
+            }
+        }
+
+        function simulateLogin() {
+            const id = document.getElementById('login-id').value.trim();
+            const pw = document.getElementById('login-pw').value.trim();
+            const successMsg = document.getElementById('successMessage');
+
+            if (!id || !pw) {
+                showState('error');
+                return;
+            }
+
+            if (id === 'admin.ferrovia' && pw === 'admin(test)') {
+                isLogged = true;
+                successMsg.textContent = 'Accès au Panel Admin accordé !';
+                showState('success');
+            } else {
+                const success = Math.random() > 0.3; 
+                
+                if (success) {
+                    isLogged = true;
+                    successMsg.textContent = 'Vous avez été connecté avec succès !';
+                    showState('success');
+                } else {
+                    showState('error');
+                }
+            }
+        }
+        
+        function simulateRegister() {
+            const id = document.getElementById('register-id').value.trim();
+            const pw = document.getElementById('register-pw').value.trim();
+            
+            if (!id || !pw) {
+                showState('error');
+                return;
+            }
+            
+            showState('initial');
+        }
+        
+        function logout() {
+            isLogged = false;
+            showState('initial');
+        }
+    </script>
+</body>
+</html>
